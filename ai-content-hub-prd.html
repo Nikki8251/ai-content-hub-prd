@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZERO Markets | AI Content Hub PRD</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #16161f;
+    --border: #1e1e2e;
+    --accent: #e8ff47;
+    --accent2: #4fffb0;
+    --accent3: #ff6b6b;
+    --text: #e8e8f0;
+    --text-dim: #6b6b80;
+    --text-mid: #a0a0b8;
+    --nav-w: 260px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  #nav {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--nav-w);
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #nav::-webkit-scrollbar { width: 3px; }
+  #nav::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .nav-header {
+    padding: 28px 20px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .nav-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .nav-badge {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .nav-items { padding: 12px 0; flex: 1; }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    border-left: 2px solid transparent;
+    text-decoration: none;
+  }
+
+  .nav-item:hover {
+    color: var(--text);
+    background: var(--surface2);
+    border-left-color: var(--border);
+  }
+
+  .nav-item.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(232,255,71,0.04);
+  }
+
+  .nav-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    min-width: 20px;
+  }
+
+  .nav-item.active .nav-num { color: var(--accent); }
+
+  /* ── MAIN ── */
+  #main {
+    margin-left: var(--nav-w);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 60px 60px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(232,255,71,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--text-mid);
+    margin-bottom: 32px;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 800px;
+  }
+
+  .meta-item {
+    background: var(--surface2);
+    padding: 14px 18px;
+  }
+
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .meta-val {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 52px 60px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 28px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    min-width: 24px;
+  }
+
+  .section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    flex: 1;
+  }
+
+  .toggle-icon {
+    font-size: 18px;
+    color: var(--text-dim);
+    transition: transform 0.2s;
+    margin-left: auto;
+  }
+
+  .section-body { }
+  .section-body.collapsed { display: none; }
+
+  .section p {
+    font-size: 14.5px;
+    color: var(--text-mid);
+    margin-bottom: 14px;
+    max-width: 700px;
+  }
+
+  .section p strong { color: var(--text); font-weight: 500; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: rgba(232,255,71,0.04);
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    margin: 20px 0;
+    font-size: 14px;
+    color: var(--text);
+    max-width: 700px;
+  }
+
+  .callout.green {
+    border-left-color: var(--accent2);
+    background: rgba(79,255,176,0.04);
+  }
+
+  .callout.red {
+    border-left-color: var(--accent3);
+    background: rgba(255,107,107,0.04);
+  }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead tr {
+    background: var(--surface2);
+  }
+
+  th {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    padding: 12px 16px;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 11px 16px;
+    border-top: 1px solid var(--border);
+    color: var(--text-mid);
+    vertical-align: top;
+  }
+
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  td:first-child { color: var(--text); font-weight: 400; }
+
+  .badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+
+  .badge-R { background: rgba(232,255,71,0.15); color: var(--accent); }
+  .badge-A { background: rgba(79,255,176,0.15); color: var(--accent2); }
+  .badge-C { background: rgba(255,255,255,0.06); color: var(--text-mid); }
+  .badge-I { background: transparent; color: var(--text-dim); border: 1px solid var(--border); }
+  .badge-AR { background: rgba(79,255,176,0.2); color: var(--accent2); }
+
+  .badge-low { background: rgba(79,255,176,0.12); color: var(--accent2); }
+  .badge-med { background: rgba(255,193,7,0.15); color: #ffc107; }
+  .badge-high { background: rgba(255,107,107,0.15); color: var(--accent3); }
+
+  /* ── PHASE CARDS ── */
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .phase-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+    transition: border-color 0.2s;
+  }
+
+  .phase-card:hover { border-color: rgba(232,255,71,0.3); }
+
+  .phase-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .phase-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .phase-weeks {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+
+  .phase-items {
+    list-style: none;
+    font-size: 12.5px;
+    color: var(--text-mid);
+  }
+
+  .phase-items li {
+    padding: 4px 0;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .phase-items li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--text-dim);
+    font-size: 10px;
+  }
+
+  /* ── LAYER CARDS ── */
+  .layer-grid {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .layer-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    gap: 20px;
+    align-items: start;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .layer-card:hover {
+    border-color: var(--border);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .layer-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+  }
+
+  .layer-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .layer-items {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .layer-goal {
+    font-size: 12px;
+    color: var(--text-mid);
+    text-align: right;
+    max-width: 160px;
+  }
+
+  /* ── RISK TABLE ── */
+  .risk-row td:nth-child(2) { color: var(--accent3); }
+
+  /* ── METRICS ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .metric-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+  }
+
+  .metric-cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .metric-items {
+    list-style: none;
+    font-size: 12.5px;
+    color: var(--text-mid);
+  }
+
+  .metric-items li {
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .metric-items li:last-child { border: none; }
+
+  /* ── OQ ── */
+  .oq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .oq-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    color: var(--text-mid);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+
+  .oq-item:hover { border-color: rgba(232,255,71,0.2); color: var(--text); }
+
+  .oq-n {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    min-width: 20px;
+    padding-top: 2px;
+  }
+
+  /* ── WORKFLOW ── */
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+    max-width: 560px;
+  }
+
+  .flow-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .flow-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 32px;
+  }
+
+  .flow-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .flow-connector {
+    width: 1px;
+    flex: 1;
+    min-height: 24px;
+    background: var(--border);
+    margin: 2px 0;
+  }
+
+  .flow-step:last-child .flow-connector { display: none; }
+
+  .flow-content {
+    padding-bottom: 20px;
+  }
+
+  .flow-label {
+    font-size: 13.5px;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .flow-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  /* ── SEARCH ── */
+  #search-wrap {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  #search {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  #search:focus { border-color: var(--accent); }
+  #search::placeholder { color: var(--text-dim); }
+
+  /* ── PROGRESS ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: var(--nav-w);
+    height: 2px;
+    background: var(--accent);
+    z-index: 200;
+    transition: width 0.1s;
+    width: 0%;
+  }
+
+  /* ── SUMMARY FOOTER ── */
+  .summary-section {
+    background: var(--surface);
+    padding: 52px 60px;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 24px;
+  }
+
+  .summary-col h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .summary-list {
+    list-style: none;
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  .summary-list li {
+    padding: 5px 0;
+    padding-left: 16px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .summary-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 9px;
+    top: 7px;
+  }
+
+  /* tag filter */
+  .tag-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .tag-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tag-btn:hover, .tag-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232,255,71,0.06);
+  }
+
+  h3.sub {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 28px 0 12px;
+    color: var(--text);
+  }
+
+  ul.plain {
+    list-style: none;
+    font-size: 13.5px;
+    color: var(--text-mid);
+  }
+  ul.plain li {
+    padding: 5px 0;
+    padding-left: 16px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  ul.plain li::before {
+    content: '·';
+    position: absolute; left: 4px;
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    :root { --nav-w: 0px; }
+    #nav { display: none; }
+    .section, .hero { padding: 32px 20px; }
+    .layer-card { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-header">
+    <div class="nav-logo">ZERO Markets</div>
+    <div class="nav-title">AI Content Hub PRD</div>
+    <div class="nav-badge">v2.0 · Internal Draft</div>
+  </div>
+  <div id="search-wrap">
+    <input id="search" type="text" placeholder="搜索章节…" />
+  </div>
+  <div class="nav-items" id="nav-items"></div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+
+  <!-- HERO -->
+  <div class="hero" id="top">
+    <div class="hero-tag">Product Requirements Document</div>
+    <h1>AI Content Hub</h1>
+    <p class="hero-sub">嵌入 Marketing Portal 的 AI 内容运营中台</p>
+    <div class="meta-grid">
+      <div class="meta-item"><div class="meta-label">产品名称</div><div class="meta-val">ZERO Markets AI Content Hub</div></div>
+      <div class="meta-item"><div class="meta-label">版本</div><div class="meta-val">v2.0 Revised Draft</div></div>
+      <div class="meta-item"><div class="meta-label">业务 Owner</div><div class="meta-val">Marketing Transformation Team</div></div>
+      <div class="meta-item"><div class="meta-label">当前状态</div><div class="meta-val">Internal Discussion Draft</div></div>
+      <div class="meta-item"><div class="meta-label">目标市场</div><div class="meta-val">AU · NZ · KR · BR · LATAM · VN</div></div>
+      <div class="meta-item"><div class="meta-label">模块定位</div><div class="meta-val">AI-powered Content Ops Module</div></div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section" id="s1" data-section="1">
+    <div class="section-header" onclick="toggle('s1')">
+      <span class="section-num">01</span>
+      <h2>产品定位</h2>
+      <span class="toggle-icon" id="t1">▾</span>
+    </div>
+    <div class="section-body" id="b1">
+      <div class="callout">
+        AI Content Hub 是嵌入 Marketing Portal 的 AI-powered Content Operations Hub，支持营销内容从<strong>需求提交 → AI 辅助生成 → SEO/GEO 优化 → 本地化改写 → 合规预检查 → 审核协作 → 发布支持 → 内容归档到复用管理</strong>的完整流程。
+      </div>
+      <p>它不应被定位为单纯的 AI 写作工具，而应被定义为 Marketing Portal 内的<strong>内容运营层</strong>，帮助团队将分散、人工、不可追踪的内容生产方式，逐步转化为标准化、可审核、可追踪、可复用的内容运营系统。</p>
+      <p style="font-style:italic; font-size:13px; color:var(--text-dim);">AI Content Hub is an AI-powered content operations module embedded within the Marketing Portal. It supports the end-to-end marketing content workflow, including content request intake, AI-assisted generation, SEO/GEO optimisation, localisation, compliance pre-check, review coordination, publishing support, content archiving and reuse.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section" id="s2" data-section="2">
+    <div class="section-header" onclick="toggle('s2')">
+      <span class="section-num">02</span>
+      <h2>项目背景</h2>
+      <span class="toggle-icon" id="t2">▾</span>
+    </div>
+    <div class="section-body" id="b2">
+      <p>ZERO Markets 当前面向多个区域市场开展营销活动，包括 Australia、New Zealand、Brazil、LATAM、Korea、Vietnam 及 Global 市场。随着多渠道内容需求不断增加，现有流程暴露出以下核心问题：</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>问题</th><th>影响</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>内容需求分散，缺少统一入口和状态管理</td><td>效率低，难追踪</td></tr>
+            <tr><td>2</td><td>跨市场/语言/渠道的品牌语气不稳定</td><td>质量参差不齐</td></tr>
+            <tr><td>3</td><td>Forex/CFD 营销内容存在合规风险</td><td>返工成本高</td></tr>
+            <tr><td>4</td><td>类似内容反复撰写，缺少 approved templates</td><td>资源浪费</td></tr>
+            <tr><td>5</td><td>SEO/GEO 要求没有系统化前置</td><td>发布后需大量调整</td></tr>
+            <tr><td>6</td><td>已发布内容缺少统一归档</td><td>复用成本高</td></tr>
+            <tr><td>7</td><td>团队各自使用 AI 工具，缺少统一平台</td><td>标准不一，难治理</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section" id="s3" data-section="3">
+    <div class="section-header" onclick="toggle('s3')">
+      <span class="section-num">03</span>
+      <h2>产品愿景</h2>
+      <span class="toggle-icon" id="t3">▾</span>
+    </div>
+    <div class="section-body" id="b3">
+      <div class="callout green">
+        打造一个面向 ZERO Markets 全球营销体系的 AI 内容运营中台，帮助所有相关团队以<strong>更高效、更一致、更合规、可追踪、可复用</strong>的方式管理营销内容生产流程。
+      </div>
+      <p>该平台是 Marketing Portal 的核心模块之一，未来将与以下系统打通，成为 ZERO Markets 内部 <strong>Marketing Operating System</strong> 的重要组成部分：</p>
+      <ul class="plain">
+        <li>Campaign Management</li>
+        <li>Digital Assets Library</li>
+        <li>Tracking Link Generator</li>
+        <li>Email Operations</li>
+        <li>Website Updates</li>
+        <li>Content Performance Dashboard</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section" id="s4" data-section="4">
+    <div class="section-header" onclick="toggle('s4')">
+      <span class="section-num">04</span>
+      <h2>产品目标</h2>
+      <span class="toggle-icon" id="t4">▾</span>
+    </div>
+    <div class="section-body" id="b4">
+      <h3 class="sub">业务目标</h3>
+      <ul class="plain">
+        <li>提升 marketing content 首稿生成效率，缩短 brief → draft 时间</li>
+        <li>统一不同市场、语言和渠道的品牌语气与内容结构</li>
+        <li>正式合规审核前提前识别高风险表达，减少返工</li>
+        <li>支持 Regional Marketing Teams 更高效完成本地化内容需求</li>
+        <li>支持 SEO/GEO 内容结构化，提升 organic 和 AI search 可见度</li>
+        <li>建立可搜索、可复用、可归档的 approved content library</li>
+        <li>为后续 Campaign Management、Digital Assets Library、Tracking Link Generator 打基础</li>
+      </ul>
+      <h3 class="sub">用户目标</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>角色</th><th>核心目标</th></tr></thead>
+          <tbody>
+            <tr><td>Marketing Transformation Team</td><td>统一管理内容流程、模板、状态和归档</td></tr>
+            <tr><td>GEO & SEO Specialist</td><td>通过标准模板推动 SEO/GEO 内容结构化</td></tr>
+            <tr><td>Digital Marketing Ops Specialist</td><td>快速生成 website、email、notification、campaign 内容</td></tr>
+            <tr><td>Social Media Ops Specialist</td><td>生成、管理和归档社媒内容</td></tr>
+            <tr><td>Regional Marketing Teams</td><td>快速获得符合本地市场语气的内容版本</td></tr>
+            <tr><td>Compliance Team</td><td>减少基础风险表达造成的反复修改</td></tr>
+            <tr><td>Marketing Manager</td><td>查看内容产出量、审核状态、复用率和 AI Hub adoption</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section" id="s5" data-section="5">
+    <div class="section-header" onclick="toggle('s5')">
+      <span class="section-num">05</span>
+      <h2>Team & Role Definition</h2>
+      <span class="toggle-icon" id="t5">▾</span>
+    </div>
+    <div class="section-body" id="b5">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>角色</th><th>定位</th><th>核心职责</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Marketing Transformation Team</td>
+              <td>Business Owner + Workflow Owner</td>
+              <td>定义流程、设计模板、管理 content library、推动落地</td>
+            </tr>
+            <tr>
+              <td>Transformation Lead / PO</td>
+              <td>Product Owner</td>
+              <td>整体方向、PRD、流程设计、UAT、跨部门协调</td>
+            </tr>
+            <tr>
+              <td>GEO & SEO Specialist</td>
+              <td>SEO/GEO 标准 Owner</td>
+              <td>维护 prompt templates、SEO article outline、GEO checklist</td>
+            </tr>
+            <tr>
+              <td>Digital Marketing Ops Specialist</td>
+              <td>日常运营执行者</td>
+              <td>生成 email/website/landing page/notification 内容，推进审核</td>
+            </tr>
+            <tr>
+              <td>Social Media Ops Specialist</td>
+              <td>社媒内容 Owner</td>
+              <td>维护模板、格式适配、排期、归档、收集数据</td>
+            </tr>
+            <tr>
+              <td>Regional Marketing Teams</td>
+              <td>Local Market Owner</td>
+              <td>本地策略、campaign 方向、语言确认、market fit 判断</td>
+            </tr>
+            <tr>
+              <td>Risk & Compliance Team</td>
+              <td>Final Compliance Owner</td>
+              <td>维护 restricted terms、正式审核、high-risk review</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section" id="s6" data-section="6">
+    <div class="section-header" onclick="toggle('s6')">
+      <span class="section-num">06</span>
+      <h2>与 Regional Teams 的关系</h2>
+      <span class="toggle-icon" id="t6">▾</span>
+    </div>
+    <div class="section-body" id="b6">
+      <div class="callout">
+        AI Content Hub 的定位是<strong>支持</strong>区域 Marketing Teams，而不是替代。各区域 Teams 仍然负责本地市场策略、campaign 方向、本地内容表达、语言确认和市场结果。
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>维度</th><th>Marketing Transformation</th><th>Regional Marketing</th></tr></thead>
+          <tbody>
+            <tr><td>核心定位</td><td>Central enablement / workflow / system owner</td><td>Local market owner</td></tr>
+            <tr><td>关注重点</td><td>流程效率、系统化、内容标准、归档复用</td><td>本地增长、用户洞察、campaign 方向、市场结果</td></tr>
+            <tr><td>负责内容</td><td>AI Hub、Portal workflow、templates、content library</td><td>Local strategy、messaging、language validation</td></tr>
+            <tr><td>决策边界</td><td>流程、系统、发布标准、内容运营规则</td><td>本地市场策略、活动方向、本地表达和 offer 判断</td></tr>
+            <tr><td>合作方式</td><td>提供工具、流程、模板和执行支持</td><td>提交需求、确认本地适配性和最终市场判断</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section" id="s7" data-section="7">
+    <div class="section-header" onclick="toggle('s7')">
+      <span class="section-num">07</span>
+      <h2>Product Scope & MVP</h2>
+      <span class="toggle-icon" id="t7">▾</span>
+    </div>
+    <div class="section-body" id="b7">
+      <h3 class="sub">Phase 1 MVP 范围</h3>
+      <ul class="plain">
+        <li><strong>AI Generate</strong>：Email、Website/LP、Social Post、Ad Creative、Copy Editing、SEO/GEO Outline</li>
+        <li><strong>Prompt Templates</strong>：高频内容场景结构化模板</li>
+        <li><strong>Basic Compliance Guard</strong>：高风险词检测、Risk Level、建议改写、Disclaimer suggestion</li>
+        <li><strong>Content Library</strong>：保存生成内容、metadata、状态、risk level、campaign、tags</li>
+        <li><strong>Content History</strong>：查看历史、重新生成、保存到内容库</li>
+        <li><strong>Admin Settings</strong>：prompt templates、restricted terms、disclaimers、API key 管理</li>
+        <li><strong>Basic Workflow Status</strong>：Draft → Needs Review → Approved → Published → Archived</li>
+      </ul>
+      <h3 class="sub">Phase 1 暂不包含</h3>
+      <div class="callout red">
+        完整 campaign performance attribution · CRM/GA4/HubSpot/AppsFlyer 数据打通 · 自动发布至官网/邮件/社媒 · 复杂多层级审批 · AI 图片/视频生成 · 外部客户访问 · 企业级 SSO · 多 AI provider 自动切换
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="section" id="s8" data-section="8">
+    <div class="section-header" onclick="toggle('s8')">
+      <span class="section-num">08</span>
+      <h2>Product Modules</h2>
+      <span class="toggle-icon" id="t8">▾</span>
+    </div>
+    <div class="section-body" id="b8">
+      <div class="layer-grid">
+        <div class="layer-card">
+          <div><div class="layer-num">Layer 1</div></div>
+          <div>
+            <div class="layer-name">Content Creation</div>
+            <div class="layer-items">AI Generate · Prompt Templates · Copywriting · Email Sequence · Ad Creative · Social Post · Landing Page Copy · Copy Editing</div>
+          </div>
+          <div class="layer-goal">快速生成结构化首稿</div>
+        </div>
+        <div class="layer-card">
+          <div><div class="layer-num">Layer 2</div></div>
+          <div>
+            <div class="layer-name">Content Optimisation</div>
+            <div class="layer-items">SEO/GEO Optimisation · Content Strategy · Localisation Hub · Tone Adjustment · CTA · FAQ · Meta · Internal Links</div>
+          </div>
+          <div class="layer-goal">适合搜索、转化、本地市场和品牌语气</div>
+        </div>
+        <div class="layer-card">
+          <div><div class="layer-num">Layer 3</div></div>
+          <div>
+            <div class="layer-name">Compliance & Governance</div>
+            <div class="layer-items">Compliance Guard · Restricted Terms · Disclaimer Rules · Compliance Notes · Risk Level · Safer Rewrite</div>
+          </div>
+          <div class="layer-goal">正式审核前减少明显风险和返工</div>
+        </div>
+        <div class="layer-card">
+          <div><div class="layer-num">Layer 4</div></div>
+          <div>
+            <div class="layer-name">Workflow & Library</div>
+            <div class="layer-items">Generated Content Library · Content History · Status · Version History · Approved Archive · Published URL · Tracking Link</div>
+          </div>
+          <div class="layer-goal">可管理、可查找、可复用、可追踪</div>
+        </div>
+        <div class="layer-card">
+          <div><div class="layer-num">Layer 5</div></div>
+          <div>
+            <div class="layer-name">Admin & Integration</div>
+            <div class="layer-items">Admin Settings · API Provider · Prompt Management · User Access · Market / Language Settings · Future Integrations</div>
+          </div>
+          <div class="layer-goal">可持续维护、可扩展、可接入其他模块</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9 -->
+  <div class="section" id="s9" data-section="9">
+    <div class="section-header" onclick="toggle('s9')">
+      <span class="section-num">09</span>
+      <h2>Functional Requirements</h2>
+      <span class="toggle-icon" id="t9">▾</span>
+    </div>
+    <div class="section-body" id="b9">
+      <h3 class="sub">9.1 AI Generate 内容生成模块</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>字段</th><th>类型</th><th>必填</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>Content Type</td><td>Dropdown</td><td>✓</td><td>Email、Ad、SEO/GEO、Landing Page、Social、Push 等</td></tr>
+            <tr><td>Target Market</td><td>Multi-select</td><td>✓</td><td>AU · NZ · KR · BR · LATAM · VN · Global</td></tr>
+            <tr><td>Platform / Channel</td><td>Dropdown</td><td>✓</td><td>Email、Website、Social、Google Ads、Meta Ads、App Push 等</td></tr>
+            <tr><td>Tone & Style</td><td>Dropdown</td><td>✓</td><td>Professional · Educational · Friendly · Premium · Compliance-safe</td></tr>
+            <tr><td>Output Language</td><td>Dropdown</td><td>✓</td><td>EN · 繁中 · 简中 · 한국어 · PT · VI</td></tr>
+            <tr><td>Product / Topic</td><td>Text field</td><td>—</td><td>Forex、CFD、Index Trading、MT4、TradingView 等</td></tr>
+            <tr><td>Audience Stage</td><td>Dropdown</td><td>—</td><td>New lead · Registered · EV approved · FTD · Inactive · Existing trader</td></tr>
+            <tr><td>Brief</td><td>Text area</td><td>✓</td><td>具体需求、背景和内容方向</td></tr>
+            <tr><td>CTA</td><td>Text field</td><td>—</td><td>Open Account · Learn More · Start Trading · Download App</td></tr>
+            <tr><td>Disclaimer Required</td><td>Toggle</td><td>—</td><td>是否要求输出包含风险提示</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub">9.3 Compliance Guard 合规预检查模块</h3>
+      <div class="callout red">
+        识别：保证收益 · 无风险 · 夸大收益 · 误导性 CTA · 缺少风险提示 · 未经证实声明 · 监管主体敏感表达 · 可能构成投资建议的表述
+      </div>
+      <p>输出：Risk Level · Flagged Text · Issue Type · Explanation · Suggested Rewrite · Disclaimer Suggestion</p>
+      <p>⚠️ 高风险内容<strong>不能被自动标记为 Approved</strong>，系统必须提示最终仍需人工合规审核。</p>
+
+      <h3 class="sub">9.5 Generated Content Library 内容库 Metadata</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>字段</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>Content ID</td><td>唯一内容 ID (UUID)</td></tr>
+            <tr><td>Content Type</td><td>Email · Ad · SEO · Social 等</td></tr>
+            <tr><td>Market</td><td>AU · NZ · KR · BR · LATAM · VN · Global</td></tr>
+            <tr><td>Status</td><td><span class="badge badge-I">Draft</span> → <span class="badge badge-C">Needs Review</span> → <span class="badge badge-A">Approved</span> → <span class="badge badge-R">Published</span> → Archived</td></tr>
+            <tr><td>Compliance Risk Level</td><td><span class="badge badge-low">Low</span> · <span class="badge badge-med">Medium</span> · <span class="badge badge-high">High</span></td></tr>
+            <tr><td>Related Campaign</td><td>关联 campaign（可选）</td></tr>
+            <tr><td>Published URL</td><td>发布后的 URL 或内容链接</td></tr>
+            <tr><td>Tracking Link</td><td>关联 UTM 或 tracking link</td></tr>
+            <tr><td>Reusable</td><td>是否可作为 approved asset 复用</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 10 -->
+  <div class="section" id="s10" data-section="10">
+    <div class="section-header" onclick="toggle('s10')">
+      <span class="section-num">10</span>
+      <h2>AI Content Hub Workflow</h2>
+      <span class="toggle-icon" id="t10">▾</span>
+    </div>
+    <div class="section-body" id="b10">
+      <h3 class="sub">内容生成工作流</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">进入 AI Content Hub</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">选择 Content Type · Market · Channel · Tone · Language</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">输入 Brief · Product · CTA · Disclaimer 需求</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">点击 Generate</div><div class="flow-sub">系统通过后端服务发送结构化 prompt 至 AI provider</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">AI 返回生成内容</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">复制 · 编辑 · 重新生成 · 保存内容</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">运行 Compliance Check</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot"></div></div><div class="flow-content"><div class="flow-label">保存为 Draft 或 Needs Review</div></div></div>
+      </div>
+
+      <h3 class="sub">合规预检查工作流</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot" style="background:var(--accent3)"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">生成或粘贴内容，点击 Compliance Check</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot" style="background:var(--accent3)"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">系统基于 restricted terms 和 compliance prompt 检查内容</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot" style="background:var(--accent3)"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">返回 risk level · flagged issues · suggested rewrites</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot" style="background:var(--accent3)"></div><div class="flow-connector"></div></div><div class="flow-content"><div class="flow-label">用户根据建议修改内容</div></div></div>
+        <div class="flow-step"><div class="flow-line"><div class="flow-dot" style="background:var(--accent3)"></div></div><div class="flow-content"><div class="flow-label">高风险内容 → 提交 Risk & Compliance 正式审核</div><div class="flow-sub">高风险内容不允许自动进入 Approved 状态</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 11 -->
+  <div class="section" id="s11" data-section="11">
+    <div class="section-header" onclick="toggle('s11')">
+      <span class="section-num">11</span>
+      <h2>Ownership Model & RACI</h2>
+      <span class="toggle-icon" id="t11">▾</span>
+    </div>
+    <div class="section-body" id="b11">
+      <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; font-family:'DM Mono',monospace; font-size:11px;">
+        <span><span class="badge badge-R">R</span> Responsible</span>
+        <span><span class="badge badge-A">A</span> Accountable</span>
+        <span><span class="badge badge-C">C</span> Consulted</span>
+        <span><span class="badge badge-I">I</span> Informed</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Task</th><th>Trans. Lead</th><th>GEO</th><th>Digital Ops</th><th>Social Ops</th><th>Regional</th><th>Compliance</th></tr></thead>
+          <tbody>
+            <tr><td>Define workflow</td><td><span class="badge badge-AR">A/R</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-C">C</span></td></tr>
+            <tr><td>Create prompt template</td><td><span class="badge badge-A">A</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-C">C</span></td></tr>
+            <tr><td>Generate draft</td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-I">I</span></td></tr>
+            <tr><td>SEO/GEO optimisation</td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-AR">A/R</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-I">I</span></td></tr>
+            <tr><td>Local market review</td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-AR">A/R</span></td><td><span class="badge badge-I">I</span></td></tr>
+            <tr><td>Compliance pre-check</td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-A">A</span></td></tr>
+            <tr><td>Final compliance approval</td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-AR">A/R</span></td></tr>
+            <tr><td>Save approved content</td><td><span class="badge badge-A">A</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-C">C</span></td></tr>
+            <tr><td>Publish content</td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-I">I</span></td></tr>
+            <tr><td>Archive final version</td><td><span class="badge badge-A">A</span></td><td><span class="badge badge-I">I</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-R">R</span></td><td><span class="badge badge-C">C</span></td><td><span class="badge badge-I">I</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 12-14 combined -->
+  <div class="section" id="s12" data-section="12">
+    <div class="section-header" onclick="toggle('s12')">
+      <span class="section-num">12–14</span>
+      <h2>Data · Integration · Non-functional Requirements</h2>
+      <span class="toggle-icon" id="t12">▾</span>
+    </div>
+    <div class="section-body" id="b12">
+      <h3 class="sub">核心数据表</h3>
+      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
+        <span class="tag-btn">users</span><span class="tag-btn">roles</span><span class="tag-btn">prompt_templates</span><span class="tag-btn">generated_contents</span><span class="tag-btn">generation_history</span><span class="tag-btn">compliance_checks</span><span class="tag-btn">restricted_terms</span><span class="tag-btn">disclaimers</span><span class="tag-btn">content_tags</span><span class="tag-btn">audit_logs</span>
+      </div>
+
+      <h3 class="sub">Phase 1 必需集成</h3>
+      <ul class="plain">
+        <li>AI provider API（通过 backend service 调用）</li>
+        <li>用户认证</li>
+        <li>数据库（内容、模板、历史记录、合规检查结果）</li>
+        <li>API Key 安全存储</li>
+      </ul>
+
+      <h3 class="sub">安全性要求</h3>
+      <div class="callout red">
+        API Key 必须存储在后端环境变量或 secrets 中，不可出现在前端代码、浏览器 local storage 或用户可见界面中。
+      </div>
+      <ul class="plain">
+        <li>用户访问需通过公司账号或内部认证</li>
+        <li>支持基础 role-based access control</li>
+        <li>不应将敏感客户数据发送给 AI provider</li>
+        <li>重要操作需要记录 audit logs</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 15 -->
+  <div class="section" id="s15" data-section="15">
+    <div class="section-header" onclick="toggle('s15')">
+      <span class="section-num">15</span>
+      <h2>Compliance & Governance Rules</h2>
+      <span class="toggle-icon" id="t15">▾</span>
+    </div>
+    <div class="section-body" id="b15">
+      <ul class="plain">
+        <li>页面需明确提示 AI 输出需要人工复核</li>
+        <li>Compliance Guard 是预检查工具，不是最终审核工具</li>
+        <li>金融营销内容在需要时必须包含适当风险提示</li>
+        <li>高风险内容不能被自动标记为 Approved</li>
+        <li>区域内容最终发布前应由对应 Regional Team 确认本地语言和市场适配性</li>
+        <li>平台应保留内容修改记录、审核状态和 audit logs</li>
+        <li>Restricted terms 和 disclaimer rules 应由 Risk & Compliance 维护或确认</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 16 -->
+  <div class="section" id="s16" data-section="16">
+    <div class="section-header" onclick="toggle('s16')">
+      <span class="section-num">16</span>
+      <h2>Success Metrics</h2>
+      <span class="toggle-icon" id="t16">▾</span>
+    </div>
+    <div class="section-body" id="b16">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-cat">Efficiency</div>
+          <ul class="metric-items">
+            <li>首稿生成时间减少 30%</li>
+            <li>每月 AI Hub 生成内容数量</li>
+            <li>每月保存至 Content Library 数量</li>
+            <li>每月 approved content 数量</li>
+            <li>内容 request turnaround time</li>
+          </ul>
+        </div>
+        <div class="metric-card">
+          <div class="metric-cat">Quality</div>
+          <ul class="metric-items">
+            <li>内容返工次数减少</li>
+            <li>合规 comments 数量减少</li>
+            <li>Approved content 复用率</li>
+            <li>Prompt template 使用率</li>
+            <li>Regional Teams 本地化满意度</li>
+          </ul>
+        </div>
+        <div class="metric-card">
+          <div class="metric-cat">Workflow</div>
+          <ul class="metric-items">
+            <li>Draft → Approved 平均周期</li>
+            <li>内容状态更新完整率</li>
+            <li>Published URL 归档率</li>
+            <li>Tracking link 添加率</li>
+            <li>Content Library metadata 完整率</li>
+          </ul>
+        </div>
+        <div class="metric-card">
+          <div class="metric-cat">Adoption</div>
+          <ul class="metric-items">
+            <li>Weekly active users</li>
+            <li>每个用户生成次数</li>
+            <li>使用 AI Hub 的 regional teams 数量</li>
+            <li>使用最多的 content types</li>
+            <li>Repeat usage rate</li>
+          </ul>
+        </div>
+        <div class="metric-card">
+          <div class="metric-cat">Compliance</div>
+          <ul class="metric-items">
+            <li>High-risk phrases detected</li>
+            <li>Pre-check 后返工减少比例</li>
+            <li>Missing disclaimer 被提前识别次数</li>
+            <li>高风险内容未被直接 approved 的比例</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 17 -->
+  <div class="section" id="s17" data-section="17">
+    <div class="section-header" onclick="toggle('s17')">
+      <span class="section-num">17</span>
+      <h2>MVP Roadmap</h2>
+      <span class="toggle-icon" id="t17">▾</span>
+    </div>
+    <div class="section-body" id="b17">
+      <div class="phase-grid">
+        <div class="phase-card">
+          <div class="phase-label">Phase 1</div>
+          <div class="phase-title">MVP Validation</div>
+          <div class="phase-weeks">预计 3–5 周</div>
+          <ul class="phase-items">
+            <li>AI Generate</li>
+            <li>Prompt Templates</li>
+            <li>Basic Compliance Guard</li>
+            <li>Content Library</li>
+            <li>Content History</li>
+            <li>Backend API Key 安全配置</li>
+            <li>Basic Workflow Status</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-label">Phase 2</div>
+          <div class="phase-title">Workflow Expansion</div>
+          <div class="phase-weeks">预计 4–6 周</div>
+          <ul class="phase-items">
+            <li>Role-based permissions</li>
+            <li>内容状态管理</li>
+            <li>Compliance comments</li>
+            <li>Version history</li>
+            <li>完整 localisation</li>
+            <li>Admin template management</li>
+          </ul>
+        </div>
+        <div class="phase-card">
+          <div class="phase-label">Phase 3</div>
+          <div class="phase-title">Marketing Portal Integration</div>
+          <div class="phase-weeks">预计 6–8 周</div>
+          <ul class="phase-items">
+            <li>与 Marketing Portal 集成</li>
+            <li>关联 Campaign</li>
+            <li>Approved content 同步至 Digital Assets Library</li>
+            <li>Tracking links</li>
+            <li>内容产出和复用 dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 18 -->
+  <div class="section" id="s18" data-section="18">
+    <div class="section-header" onclick="toggle('s18')">
+      <span class="section-num">18</span>
+      <h2>Risks & Mitigation</h2>
+      <span class="toggle-icon" id="t18">▾</span>
+    </div>
+    <div class="section-body" id="b18">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>风险</th><th>影响</th><th>应对方案</th></tr></thead>
+          <tbody class="risk-row">
+            <tr><td>AI 输出可能不准确或不合规</td><td><span class="badge badge-high">高</span></td><td>增加 Compliance Guard，保留人工审核</td></tr>
+            <tr><td>用户过度依赖 AI 输出</td><td><span class="badge badge-med">中</span></td><td>明确提示 AI 只是辅助，最终内容需人工确认</td></tr>
+            <tr><td>API Key 暴露</td><td><span class="badge badge-high">高</span></td><td>API Key 仅存储在后端 secrets，不允许前端输入或展示</td></tr>
+            <tr><td>内容团队采用率不高</td><td><span class="badge badge-med">中</span></td><td>从高频真实场景切入：Email、Ad Copy、SEO/GEO Outline</td></tr>
+            <tr><td>Compliance 团队不信任 AI 检查</td><td><span class="badge badge-med">中</span></td><td>将其定位为 pre-check，不作为 final approval</td></tr>
+            <tr><td>输出内容过于通用</td><td><span class="badge badge-med">中</span></td><td>建立品牌语气库、优秀案例库和标准模板</td></tr>
+            <tr><td>多语言内容不自然</td><td><span class="badge badge-med">中</span></td><td>加入 regional review，沉淀本地化表达库</td></tr>
+            <tr><td>成本不可控</td><td><span class="badge badge-med">中</span></td><td>记录使用量，按用户、市场和内容类型监控 AI cost</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 19 -->
+  <div class="section" id="s19" data-section="19">
+    <div class="section-header" onclick="toggle('s19')">
+      <span class="section-num">19</span>
+      <h2>Open Questions</h2>
+      <span class="toggle-icon" id="t19">▾</span>
+    </div>
+    <div class="section-body" id="b19">
+      <div class="oq-list">
+        <div class="oq-item"><span class="oq-n">Q1</span><span>生产环境使用哪个 AI provider：Anthropic、OpenAI、Azure OpenAI 或其他？</span></div>
+        <div class="oq-item"><span class="oq-n">Q2</span><span>Phase 1 是否需要接入公司 SSO？</span></div>
+        <div class="oq-item"><span class="oq-n">Q3</span><span>Prompt templates 由哪个团队负责维护？</span></div>
+        <div class="oq-item"><span class="oq-n">Q4</span><span>Compliance Guard 的 restricted terms 和 disclaimer rules 由谁管理？</span></div>
+        <div class="oq-item"><span class="oq-n">Q5</span><span>MVP 阶段最优先支持哪些内容类型？</span></div>
+        <div class="oq-item"><span class="oq-n">Q6</span><span>生成内容是否永久保存，还是定期 archive？</span></div>
+        <div class="oq-item"><span class="oq-n">Q7</span><span>哪些数据可以发送给外部 AI provider？是否需要内部数据安全审批？</span></div>
+        <div class="oq-item"><span class="oq-n">Q8</span><span>是否需要支持不同 entity / regulator 的 disclaimer？</span></div>
+        <div class="oq-item"><span class="oq-n">Q9</span><span>Approved content 是否需要自动同步至 Digital Assets Library？</span></div>
+        <div class="oq-item"><span class="oq-n">Q10</span><span>AI 使用成本是否需要按团队、市场或用户统计？</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 20 -->
+  <div class="summary-section" id="s20">
+    <div class="section-header" onclick="toggle('s20')" style="cursor:pointer; display:flex; align-items:baseline; gap:14px; margin-bottom:28px;">
+      <span class="section-num" style="color:var(--accent);font-family:'DM Mono',monospace;font-size:12px;">20</span>
+      <h2 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;">Summary</h2>
+      <span class="toggle-icon" id="t20">▾</span>
+    </div>
+    <div id="b20">
+      <div class="callout green">
+        AI Content Hub 不是一个独立的 AI 写作工具，而是 <strong>Marketing Portal 内的 AI 内容运营模块</strong>。它的目标是帮助 ZERO Markets 在不同市场、语言和渠道中，标准化、加速并治理 marketing content workflow。
+      </div>
+      <div class="summary-grid">
+        <div class="summary-col">
+          <h3>系统核心价值</h3>
+          <ul class="summary-list">
+            <li>AI 辅助生成 + SEO/GEO 优化</li>
+            <li>本地化改写 + 合规预检查</li>
+            <li>内容资产库 + 状态管理</li>
+            <li>标准化内容生产流程</li>
+            <li>可追踪、可审核、可复用</li>
+          </ul>
+        </div>
+        <div class="summary-col">
+          <h3>团队定位</h3>
+          <ul class="summary-list">
+            <li>Marketing Transformation Team → Business Owner + Workflow Owner</li>
+            <li>Regional Marketing Teams → 本地策略 + 内容判断</li>
+            <li>Risk & Compliance → 最终合规审核</li>
+            <li>AI Hub → 将 AI 能力嵌入真实 marketing workflow</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // NAV CONFIG
+  const sections = [
+    { id: 's1',  num: '01', label: '产品定位' },
+    { id: 's2',  num: '02', label: '项目背景' },
+    { id: 's3',  num: '03', label: '产品愿景' },
+    { id: 's4',  num: '04', label: '产品目标' },
+    { id: 's5',  num: '05', label: 'Team & Role Definition' },
+    { id: 's6',  num: '06', label: '与 Regional Teams 的关系' },
+    { id: 's7',  num: '07', label: 'Product Scope & MVP' },
+    { id: 's8',  num: '08', label: 'Product Modules' },
+    { id: 's9',  num: '09', label: 'Functional Requirements' },
+    { id: 's10', num: '10', label: 'AI Content Hub Workflow' },
+    { id: 's11', num: '11', label: 'Ownership Model & RACI' },
+    { id: 's12', num: '12–14', label: 'Data · Integration · NFR' },
+    { id: 's15', num: '15', label: 'Compliance & Governance' },
+    { id: 's16', num: '16', label: 'Success Metrics' },
+    { id: 's17', num: '17', label: 'MVP Roadmap' },
+    { id: 's18', num: '18', label: 'Risks & Mitigation' },
+    { id: 's19', num: '19', label: 'Open Questions' },
+    { id: 's20', num: '20', label: 'Summary' },
+  ];
+
+  // Build nav
+  const navItems = document.getElementById('nav-items');
+  sections.forEach(s => {
+    const a = document.createElement('a');
+    a.className = 'nav-item';
+    a.href = '#' + s.id;
+    a.id = 'nav-' + s.id;
+    a.innerHTML = `<span class="nav-num">${s.num}</span><span>${s.label}</span>`;
+    navItems.appendChild(a);
+  });
+
+  // Toggle sections
+  function toggle(id) {
+    const body = document.getElementById('b' + id.replace('s',''));
+    const icon = document.getElementById('t' + id.replace('s',''));
+    if (!body || !icon) return;
+    const collapsed = body.classList.toggle('collapsed');
+    icon.textContent = collapsed ? '▸' : '▾';
+  }
+
+  // Active nav on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        const nav = document.getElementById('nav-' + e.target.id);
+        if (nav) {
+          nav.classList.add('active');
+          nav.scrollIntoView({ block: 'nearest' });
+        }
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (el) observer.observe(el);
+  });
+
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    document.getElementById('progress-bar').style.width = (scrolled / total * 100) + '%';
+  });
+
+  // Search
+  const search = document.getElementById('search');
+  search.addEventListener('input', () => {
+    const q = search.value.toLowerCase();
+    document.querySelectorAll('.nav-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.style.display = !q || text.includes(q) ? 'flex' : 'none';
+    });
+  });
+</script>
+</body>
+</html>
